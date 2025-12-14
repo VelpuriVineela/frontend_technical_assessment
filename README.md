@@ -103,7 +103,7 @@ The backend runs on:
   "is_dag": true
 }
 
-##Design Decisions
+## Design Decisions
 - ### DRY principle:
   Shared UI and logic extracted into reusable components and hooks.
 - ### Separation of concerns:
