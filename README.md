@@ -1,70 +1,116 @@
-# Getting Started with Create React App
+# Visual Pipeline Builder — VectorShift Technical Assessment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This project is a **Visual Pipeline Builder** that allows users to construct and validate processing pipelines using a node-based interface.
 
-## Available Scripts
+Users can:
+- Create and connect different node types visually
+- Define dynamic inputs using templated text (e.g. `{{input}}`)
+- Submit the pipeline for server-side validation
+- Receive feedback on node count, edge count, and DAG validity
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Frontend
+- React (Create React App)
+- React Flow
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend
+- Python
+- FastAPI
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Key Features
 
-### `npm run build`
+### 1. Scalable Node Abstraction
+- Introduced a reusable `BaseNode` component to handle shared layout, styling, and handle positioning.
+- Extracted form and state logic into custom hooks to avoid duplication.
+- New node types can be created with minimal code by defining only unique fields.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. Unified Styling System
+- Implemented a lightweight design system using CSS variables.
+- Centralized styles for nodes and buttons to ensure consistency and easy theming.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 3. Dynamic Text Node Logic
+- Text nodes automatically resize based on content.
+- Template variables defined using `{{variable}}` syntax are parsed and converted into dynamic input handles.
+- Logic is extracted into reusable hooks and optimized using memoization.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 4. Frontend ↔ Backend Integration
+- Frontend submits pipeline nodes and edges to the backend.
+- Backend validates the pipeline by:
+  - Counting nodes and edges
+  - Detecting cycles using DFS to determine DAG validity
+- Results are displayed using a custom modal for improved UX.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
+## Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+├── frontend/
+│ ├── src/
+│ │ ├── nodes/
+│ │ ├── hooks/
+│ │ ├── submit.js
+│ └── package.json
+├── backend/
+│ ├── main.py
+│ └── requirements.txt
+└── README.md
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## How to Run Locally
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
 
-### Code Splitting
+The app will be available at:  
+`http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-### Making a Progressive Web App
+The backend runs on:
+`http://localhost:8000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Backend API Response Format
 
-### Advanced Configuration
+{
+  "num_nodes": 5,
+  "num_edges": 4,
+  "is_dag": true
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+##Design Decisions
+- ### DRY principle:
+  Shared UI and logic extracted into reusable components and hooks.
+- ### Separation of concerns:
+  UI, state management, and parsing logic are clearly separated.
+- ### Maintainability:
+  Centralized styling and configuration-driven nodes.
+- ### Robust UX:
+  Custom modal used instead of browser alerts.
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Notes
+- The application is designed to be run locally as per the assessment instructions.
+- Deployment was intentionally kept optional to focus on code quality and architecture.
