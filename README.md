@@ -55,7 +55,7 @@ Users can:
 ---
 ## Project Structure
 
-`
+```bash
 ├── frontend/
 │ ├── src/
 │ │ ├── nodes/
@@ -66,7 +66,7 @@ Users can:
 │ ├── main.py
 │ └── requirements.txt
 └── README.md
-`
+```
 
 ---
 
